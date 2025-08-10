@@ -1,0 +1,28 @@
+Launcher File -> index.tsx
+Splash File -> index.tsx
+login file -> login.tsx
+create account file -> signup.tsx
+dashboard -> dashboard.tsx
+
+Libraries
+    - expo-router -> Switch from one screen to another
+
+Task (08/08/2025)
+    - Install expo-router library from yourself. Find resources on expo website.
+
+1. Components requires to create a splash screen?
+    - Library (expo-router), 
+    - ActivityIndicator (loading animation), 
+    - Text, 
+    - View, 
+    - StyleSheet
+    - UseEffect -> To handle timeout
+
+
+2. Components requires to create a login screen
+    - Library (axios)
+    - View
+    - Input Boxes (Email & Password)
+    - Button with ActivityIndicator
+    - API
+    - Expo Router

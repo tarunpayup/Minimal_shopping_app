@@ -1,0 +1,2 @@
+Q1. Find out the possible errors which can be occur during compile/run time.
+Q2. Error handling with the help of server error codes transfered by server.

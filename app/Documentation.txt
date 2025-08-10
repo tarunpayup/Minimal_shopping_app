@@ -1,0 +1,22 @@
+AXIOS DOCUMENTATION
+Axios is a popular, promise-based HTTP client that is widely used in React Native and Expo projects for making API requests. It simplifies the process of sending and receiving data from external servers.
+Key features and benefits of using Axios in React Native/Expo:
+Simplified Syntax:
+Axios provides a cleaner and more readable syntax compared to the built-in fetch API for making HTTP requests (GET, POST, PUT, DELETE, etc.).
+Promise-based:
+It leverages JavaScript Promises, making asynchronous operations and error handling more manageable and readable.
+Automatic JSON Transformation:
+Axios automatically converts JSON responses into JavaScript objects, eliminating the need for manual parsing with JSON.parse().
+Interceptors:
+You can set up request and response interceptors to perform actions globally, such as adding authentication tokens to headers, logging requests, or handling errors consistently.
+Error Handling:
+Axios provides robust error handling mechanisms, allowing you to catch and manage network errors, server errors, and other issues effectively.
+Request Cancellation:
+Axios supports canceling ongoing requests, which is useful in scenarios like preventing race conditions or handling unmounted components.
+How to use Axios in an Expo React Native project:
+Installation: Install Axios in your project by running:
+Code
+
+    npm install axios
+    # or
+    yarn add axios
