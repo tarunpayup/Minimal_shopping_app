@@ -1,5 +1,4 @@
-//npm install react-native-phone-number-input
-//npm install react-native-picker-select
+import axios from 'axios';
 import { useState } from 'react';
 import {
   Alert,
@@ -10,10 +9,9 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-
 import PhoneInput from 'react-native-phone-number-input';
 import RNPickerSelect from 'react-native-picker-select';
- 
+
 export default function SignupScreen() {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -26,20 +24,45 @@ export default function SignupScreen() {
   const [stateVal, setStateVal] = useState('');
   const [country, setCountry] = useState('');
 
-  const handleSignup = () => {
+  const handleSignup = async () => {
     if (!fullName || !email || !phoneNumber || !gender || !address1 || !pincode || !city || !stateVal || !country) {
       Alert.alert('Error', 'Please fill all required fields');
       return;
     }
-    Alert.alert('Success', 'Account created successfully!');
+
+    try {
+      const response = await axios.post(
+        'https://tarunbansal.co.in/android/react/signup.php',
+        {
+          fullName,
+          email,
+          phoneNumber,
+          gender,
+          address1,
+          address2,
+          pincode,
+          city,
+          state: stateVal,
+          country
+        }
+      );
+
+      if (response.data.status) {
+        Alert.alert('Success', response.data.message || 'Account created successfully!');
+      } else {
+        Alert.alert('Error', response.data.message || 'Signup failed');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('Error', 'Something went wrong. Please try again.');
+    }
   };
 
   return (
     <KeyboardAvoidingView
-  behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-  style={{ flex: 1, backgroundColor: '#fff' }}
->
-
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1, backgroundColor: '#fff' }}
+    >
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           <Text style={styles.heading}>Create Account</Text>
@@ -56,16 +79,23 @@ export default function SignupScreen() {
 
           {/* Phone Number */}
           <Text style={styles.label}>Phone Number</Text>
-          <PhoneInput defaultValue={phoneNumber} defaultCode="IN" layout="first"
-            onChangeFormattedText={text => setPhoneNumber(text)} containerStyle={{ marginBottom: 15 }} />
+          <PhoneInput
+            defaultValue={phoneNumber}
+            defaultCode="IN"
+            layout="first"
+            onChangeFormattedText={text => setPhoneNumber(text)}
+            containerStyle={{ marginBottom: 15 }}
+          />
 
           {/* Gender */}
           <Text style={styles.label}>Gender</Text>
           <View style={styles.genderContainer}>
             {['Male', 'Female', 'Other'].map(g => (
-              <TouchableOpacity key={g}
+              <TouchableOpacity
+                key={g}
                 style={[styles.genderOption, gender === g && styles.genderSelected]}
-                onPress={() => setGender(g)}>
+                onPress={() => setGender(g)}
+              >
                 <Text style={{ color: gender === g ? '#fff' : '#444' }}>{g}</Text>
               </TouchableOpacity>
             ))}
