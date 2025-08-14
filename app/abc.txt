@@ -26,3 +26,12 @@ Task (08/08/2025)
     - Button with ActivityIndicator
     - API
     - Expo Router
+
+3. Components requires to create a signup screen
+    - Library (axios)
+    - View
+    - Input Boxes
+    - Button with ActivityIndicator
+    - API
+    - Expo Router
+    - Phone Input     
