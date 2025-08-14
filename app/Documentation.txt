@@ -20,3 +20,7 @@ Code
     npm install axios
     # or
     yarn add axios
+
+
+    PICKER SELECT - RNPickerSelect
+    

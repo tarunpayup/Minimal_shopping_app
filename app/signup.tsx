@@ -1,16 +1,27 @@
+
 import axios from 'axios';
+import { router } from 'expo-router';
 import { useState } from 'react';
 import {
+  ActivityIndicator,
   Alert,
-  KeyboardAvoidingView, Platform,
+  KeyboardAvoidingView,
+  Platform,
   ScrollView,
   StyleSheet,
-  Text, TextInput,
+  Text,
+  TextInput,
   TouchableOpacity,
   View
 } from 'react-native';
-import PhoneInput from 'react-native-phone-number-input';
-import RNPickerSelect from 'react-native-picker-select';
+import PhoneInput from 'react-native-phone-number-input'; //npm install react-native-phone-number-input
+import RNPickerSelect from 'react-native-picker-select'; //npm install react-native-picker-select
+//RNPickerSelect -> React Native Picker Select
+
+//Expo install -> npx
+//Simple react library -> npm 
+
+
 
 export default function SignupScreen() {
   const [fullName, setFullName] = useState('');
@@ -23,39 +34,44 @@ export default function SignupScreen() {
   const [city, setCity] = useState('');
   const [stateVal, setStateVal] = useState('');
   const [country, setCountry] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSignup = async () => {
+  const handleSignup = () => {
     if (!fullName || !email || !phoneNumber || !gender || !address1 || !pincode || !city || !stateVal || !country) {
       Alert.alert('Error', 'Please fill all required fields');
       return;
     }
 
-    try {
-      const response = await axios.post(
-        'https://tarunbansal.co.in/android/react/signup.php',
-        {
-          fullName,
-          email,
-          phoneNumber,
-          gender,
-          address1,
-          address2,
-          pincode,
-          city,
-          state: stateVal,
-          country
-        }
-      );
+    setLoading(true);
 
-      if (response.data.status) {
-        Alert.alert('Success', response.data.message || 'Account created successfully!');
+    axios.post("https://tarunbansal.co.in/android/react/signup.php", {
+      full_name: fullName,
+      email: email,
+      phone_number: phoneNumber,
+      gender: gender,
+      address1: address1,
+      address2: address2,
+      pincode: pincode,
+      city: city,
+      state: stateVal,
+      country: country
+    })
+    .then(response => {
+      const data = response.data;
+      if (data.status) {
+        Alert.alert("Success", data.message);
+        router.replace("/dashboard");
       } else {
-        Alert.alert('Error', response.data.message || 'Signup failed');
+        Alert.alert("Error", data.message);
       }
-    } catch (error) {
+    })
+    .catch(error => {
       console.error(error);
-      Alert.alert('Error', 'Something went wrong. Please try again.');
-    }
+      Alert.alert("Error", "Something went wrong!");
+    })
+    .finally(() => {
+      setLoading(false);
+    });
   };
 
   return (
@@ -90,7 +106,7 @@ export default function SignupScreen() {
           {/* Gender */}
           <Text style={styles.label}>Gender</Text>
           <View style={styles.genderContainer}>
-            {['Male', 'Female', 'Other'].map(g => (
+            {['Male', 'Female', 'NPTS'].map(g => (
               <TouchableOpacity
                 key={g}
                 style={[styles.genderOption, gender === g && styles.genderSelected]}
@@ -116,6 +132,7 @@ export default function SignupScreen() {
           {/* City Dropdown */}
           <Text style={styles.label}>City</Text>
           <RNPickerSelect
+          //dictionary - HashMap
             onValueChange={(value) => setCity(value)}
             items={[
               { label: 'Mumbai', value: 'Mumbai' },
@@ -160,6 +177,13 @@ export default function SignupScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Loading Overlay */}
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size="large" color="#fff" />
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 }
@@ -176,7 +200,14 @@ const styles = StyleSheet.create({
   genderOption: { flex: 1, padding: 12, borderRadius: 10, borderWidth: 1, borderColor: '#E0E0E0', alignItems: 'center', marginHorizontal: 5 },
   genderSelected: { backgroundColor: '#95D09C', borderColor: '#95D09C' },
   button: { backgroundColor: '#95D09C', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 10, elevation: 4 },
-  buttonText: { color: '#fff', fontSize: 17, fontWeight: '600' }
+  buttonText: { color: '#fff', fontSize: 17, fontWeight: '600' },
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0, left: 0, right: 0, bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  }
 });
 
 const pickerSelectStyles = StyleSheet.create({
