@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import axios from 'axios';
 import { Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function DashboardScreen() {
@@ -12,17 +13,19 @@ export default function DashboardScreen() {
     { name: 'Premium' },
   ];
 
+  axios.get("");
+
 const cards = [
   { title: 'Big Sale', color: '#FFC107', image: require('../assets/images/card-sale.png') },
   { title: 'New Arrivals', color: '#03A9F4', image: require('../assets/images/card-arrivals.png') },
   { title: 'Top Picks', color: '#8BC34A', image: require('../assets/images/card-picks.png') },
 ];
 
-const products = Array.from({ length: 10 }, (_, i) => ({
+const products = Array.from({ length: 20 }, (_, i) => ({
   id: i.toString(),
   name: `Product ${i + 1}`,
-  price: `$${(Math.random() * 50 + 10).toFixed(2)}`,
-  image: require('../assets/images/product1.png'), // you can replace with different images
+  price: `Rs.${(Math.random() * 100 + 10).toFixed(0)}`,
+  image: require('../assets/images/product1.png'),
 }));
 
   const renderProduct = ({ item }) => (
