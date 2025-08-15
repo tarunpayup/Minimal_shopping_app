@@ -12,22 +12,22 @@ export default function DashboardScreen() {
     { name: 'Premium' },
   ];
 
-  const cards = [
-    { title: 'Big Sale', color: '#FFC107', image: 'https://via.placeholder.com/100' },
-    { title: 'New Arrivals', color: '#03A9F4', image: 'https://via.placeholder.com/100' },
-    { title: 'Top Picks', color: '#8BC34A', image: 'https://via.placeholder.com/100' },
-  ];
+const cards = [
+  { title: 'Big Sale', color: '#FFC107', image: require('../assets/images/card-sale.png') },
+  { title: 'New Arrivals', color: '#03A9F4', image: require('../assets/images/card-arrivals.png') },
+  { title: 'Top Picks', color: '#8BC34A', image: require('../assets/images/card-picks.png') },
+];
 
-  const products = Array.from({ length: 10 }, (_, i) => ({
-    id: i.toString(),
-    name: `Product ${i + 1}`,
-    price: `$${(Math.random() * 50 + 10).toFixed(2)}`,
-    image: 'https://via.placeholder.com/80',
-  }));
+const products = Array.from({ length: 10 }, (_, i) => ({
+  id: i.toString(),
+  name: `Product ${i + 1}`,
+  price: `$${(Math.random() * 50 + 10).toFixed(2)}`,
+  image: require('../assets/images/product1.png'), // you can replace with different images
+}));
 
   const renderProduct = ({ item }) => (
     <View style={styles.productCard}>
-      <Image source={{ uri: item.image }} style={styles.productImage} />
+      <Image source={item.image} style={styles.productImage} />
       <View style={{ flex: 1 }}>
         <Text style={styles.productName}>{item.name}</Text>
         <Text style={styles.productPrice}>{item.price}</Text>
@@ -41,19 +41,20 @@ export default function DashboardScreen() {
       {/* Scrollable main content */}
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         {/* Background Header */}
-        <ImageBackground
-          source={{ uri: 'https://via.placeholder.com/400x200' }}
-          style={styles.header}
-        >
-          <View style={styles.topBar}>
-            <Text style={styles.companyName}>My Company</Text>
-            <TouchableOpacity>
-              <Image
-                source={{ uri: 'https://via.placeholder.com/40' }}
-                style={styles.avatar}
-              />
-            </TouchableOpacity>
-          </View>
+      <ImageBackground
+        source={require('../assets/images/header-bg.jpg')}
+        style={styles.header}
+      >
+        <View style={styles.topBar}>
+          <Text style={styles.companyName}>My Company</Text>
+          <TouchableOpacity>
+            <Image
+              source={require('../assets/images/avatar.png')}
+              style={styles.avatar}
+            />
+          </TouchableOpacity>
+        </View>
+
 
           {/* Search Bar */}
           <View style={styles.searchBar}>
@@ -78,7 +79,7 @@ export default function DashboardScreen() {
           {cards.map((card, index) => (
             <View key={index} style={[styles.card, { backgroundColor: card.color }]}>
               <Text style={styles.cardTitle}>{card.title}</Text>
-              <Image source={{ uri: card.image }} style={styles.cardImage} />
+              <Image source={card.image} style={styles.cardImage} />
             </View>
           ))}
         </View>
