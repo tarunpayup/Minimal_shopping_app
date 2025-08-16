@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, FlatList } from 'react-native';
 import { router } from 'expo-router';
+import { useEffect, useState } from 'react';
+import { ActivityIndicator, FlatList, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 export default function DashboardScreen() {
   const categories = [
@@ -127,7 +127,7 @@ export default function DashboardScreen() {
           <Ionicons name="grid-outline" size={24} color="#000" />
           <Text>Categories</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push({ pathname: "/cart" })}>
           <Ionicons name="cart-outline" size={24} color="#000" />
           <Text>Cart</Text>
         </TouchableOpacity>

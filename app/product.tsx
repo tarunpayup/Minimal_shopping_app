@@ -6,7 +6,7 @@ import { ActivityIndicator, FlatList, Image, ScrollView, Share, StyleSheet, Text
 
 export default function ProductScreen() {
   const { id } = useLocalSearchParams(); 
-  const router = useRouter();   // ✅ router for navigation
+  const router = useRouter();   //  router for navigation
   const [product, setProduct] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [cartCount, setCartCount] = useState(0);
@@ -84,7 +84,7 @@ export default function ProductScreen() {
 
   return (
     <View style={{ flex: 1 }}>
-      {/* ✅ Top Bar with Theme & More Padding */}
+      {/* Top Bar with Theme & More Padding */}
       <View style={styles.topBar}>
         <Text style={styles.appName}>MyShop</Text>
         <View style={styles.topIcons}>
@@ -92,7 +92,7 @@ export default function ProductScreen() {
             <Ionicons name="person-circle-outline" size={28} color="#fff" />
           </TouchableOpacity>
 
-          {/* ✅ Cart navigation */}
+          {/*  Cart navigation */}
           <TouchableOpacity onPress={() => router.push('/cart')}>
             <Ionicons name="cart-outline" size={28} color="#fff" />
             {cartCount > 0 && (
