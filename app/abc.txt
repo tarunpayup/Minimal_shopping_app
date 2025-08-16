@@ -35,3 +35,11 @@ Task (08/08/2025)
     - API
     - Expo Router
     - Phone Input     
+
+4. Components requires to create a dashboard screen
+    - Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View
+    - API
+    - Expo Router
+    - Library (axios)
+    - Images
+

@@ -1,6 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
-import { Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { useEffect, useState } from 'react';
+import { Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, ActivityIndicator, FlatList } from 'react-native';
+import { router } from 'expo-router';
 
 export default function DashboardScreen() {
   const categories = [
@@ -13,30 +15,40 @@ export default function DashboardScreen() {
     { name: 'Premium' },
   ];
 
-  axios.get("");
+  const cards = [
+    { title: 'Big Sale', color: '#FFC107', image: require('../assets/images/card-sale.png') },
+    { title: 'New Arrivals', color: '#03A9F4', image: require('../assets/images/card-arrivals.png') },
+    { title: 'Top Picks', color: '#8BC34A', image: require('../assets/images/card-picks.png') },
+  ];
 
-const cards = [
-  { title: 'Big Sale', color: '#FFC107', image: require('../assets/images/card-sale.png') },
-  { title: 'New Arrivals', color: '#03A9F4', image: require('../assets/images/card-arrivals.png') },
-  { title: 'Top Picks', color: '#8BC34A', image: require('../assets/images/card-picks.png') },
-];
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-const products = Array.from({ length: 20 }, (_, i) => ({
-  id: i.toString(),
-  name: `Product ${i + 1}`,
-  price: `Rs.${(Math.random() * 100 + 10).toFixed(0)}`,
-  image: require('../assets/images/product1.png'),
-}));
+  // Fetch products from FakeStore API
+  useEffect(() => {
+    axios.get("https://fakestoreapi.com/products")
+      .then(res => {
+        setProducts(res.data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log(err);
+        setLoading(false);
+      });
+  }, []);
 
-  const renderProduct = ({ item }) => (
-    <View style={styles.productCard}>
-      <Image source={item.image} style={styles.productImage} />
+  const renderProduct = ({ item }: { item: any }) => (
+    <TouchableOpacity
+      style={styles.productCard}
+      onPress={() => router.push({ pathname: "/product", params: { id: item.id } })}
+    >
+      <Image source={{ uri: item.image }} style={styles.productImage} />
       <View style={{ flex: 1 }}>
-        <Text style={styles.productName}>{item.name}</Text>
-        <Text style={styles.productPrice}>{item.price}</Text>
+        <Text style={styles.productName}>{item.title}</Text>
+        <Text style={styles.productPrice}>Rs. {item.price}</Text>
       </View>
       <Ionicons name="cart-outline" size={24} color="#000" />
-    </View>
+    </TouchableOpacity>
   );
 
   return (
@@ -44,20 +56,19 @@ const products = Array.from({ length: 20 }, (_, i) => ({
       {/* Scrollable main content */}
       <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
         {/* Background Header */}
-      <ImageBackground
-        source={require('../assets/images/header-bg.jpg')}
-        style={styles.header}
-      >
-        <View style={styles.topBar}>
-          <Text style={styles.companyName}>My Company</Text>
-          <TouchableOpacity>
-            <Image
-              source={require('../assets/images/avatar.png')}
-              style={styles.avatar}
-            />
-          </TouchableOpacity>
-        </View>
-
+        <ImageBackground
+          source={require('../assets/images/header-bg.jpg')}
+          style={styles.header}
+        >
+          <View style={styles.topBar}>
+            <Text style={styles.companyName}>My Company</Text>
+            <TouchableOpacity>
+              <Image
+                source={require('../assets/images/avatar.png')}
+                style={styles.avatar}
+              />
+            </TouchableOpacity>
+          </View>
 
           {/* Search Bar */}
           <View style={styles.searchBar}>
@@ -90,7 +101,15 @@ const products = Array.from({ length: 20 }, (_, i) => ({
         {/* Products List */}
         <View style={{ padding: 10 }}>
           <Text style={styles.sectionTitle}>Products</Text>
-          {products.map((item) => renderProduct({ item }))}
+          {loading ? (
+            <ActivityIndicator size="large" color="#000" />
+          ) : (
+            <FlatList
+              data={products}
+              renderItem={renderProduct}
+              keyExtractor={(item) => item.id.toString()}
+            />
+          )}
         </View>
       </ScrollView>
 
