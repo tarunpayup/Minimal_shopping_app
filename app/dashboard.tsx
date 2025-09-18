@@ -2,7 +2,18 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import { router } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  Image,
+  ImageBackground,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 export default function DashboardScreen() {
   const categories = [
@@ -26,12 +37,13 @@ export default function DashboardScreen() {
 
   // Fetch products from FakeStore API
   useEffect(() => {
-    axios.get("https://fakestoreapi.com/products")
-      .then(res => {
+    axios
+      .get('https://fakestoreapi.com/products')
+      .then((res) => {
         setProducts(res.data);
         setLoading(false);
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         setLoading(false);
       });
@@ -40,7 +52,7 @@ export default function DashboardScreen() {
   const renderProduct = ({ item }: { item: any }) => (
     <TouchableOpacity
       style={styles.productCard}
-      onPress={() => router.push({ pathname: "/product", params: { id: item.id } })}
+      onPress={() => router.push({ pathname: '/product', params: { id: item.id } })}
     >
       <Image source={{ uri: item.image }} style={styles.productImage} />
       <View style={{ flex: 1 }}>
@@ -53,65 +65,74 @@ export default function DashboardScreen() {
 
   return (
     <View style={styles.container}>
-      {/* Scrollable main content */}
-      <ScrollView contentContainerStyle={{ paddingBottom: 80 }}>
-        {/* Background Header */}
-        <ImageBackground
-          source={require('../assets/images/header-bg.jpg')}
-          style={styles.header}
-        >
-          <View style={styles.topBar}>
-            <Text style={styles.companyName}>My Company</Text>
-            <TouchableOpacity>
-              <Image
-                source={require('../assets/images/avatar.png')}
-                style={styles.avatar}
-              />
-            </TouchableOpacity>
-          </View>
+      {/* Products FlatList with Header */}
+      <FlatList
+        data={products}
+        renderItem={renderProduct}
+        keyExtractor={(item) => item.id.toString()}
+        contentContainerStyle={{ paddingBottom: 80 }}
+        ListHeaderComponent={
+          <>
+            {/* Background Header */}
+            <ImageBackground
+              source={require('../assets/images/header-bg.jpg')}
+              style={styles.header}
+            >
+              <View style={styles.topBar}>
+                <Text style={styles.companyName}>My Company</Text>
+                <TouchableOpacity>
+                  <Image
+                    source={require('../assets/images/avatar.png')}
+                    style={styles.avatar}
+                  />
+                </TouchableOpacity>
+              </View>
 
-          {/* Search Bar */}
-          <View style={styles.searchBar}>
-            <Ionicons name="search" size={20} color="#888" />
-            <TextInput placeholder="Search products..." style={styles.searchInput} />
-          </View>
-        </ImageBackground>
+              {/* Search Bar */}
+              <View style={styles.searchBar}>
+                <Ionicons name="search" size={20} color="#888" />
+                <TextInput
+                  placeholder="Search products..."
+                  style={styles.searchInput}
+                />
+              </View>
+            </ImageBackground>
 
-        {/* Categories */}
-        <View style={styles.categoriesContainer}>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
-            {categories.map((cat, index) => (
-              <TouchableOpacity key={index} style={styles.categoryChip}>
-                <Text style={styles.categoryText}>{cat.name}</Text>
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </View>
-
-        {/* Cards */}
-        <View style={styles.cardsContainer}>
-          {cards.map((card, index) => (
-            <View key={index} style={[styles.card, { backgroundColor: card.color }]}>
-              <Text style={styles.cardTitle}>{card.title}</Text>
-              <Image source={card.image} style={styles.cardImage} />
+            {/* Categories */}
+            <View style={styles.categoriesContainer}>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                {categories.map((cat, index) => (
+                  <TouchableOpacity key={index} style={styles.categoryChip}>
+                    <Text style={styles.categoryText}>{cat.name}</Text>
+                  </TouchableOpacity>
+                ))}
+              </ScrollView>
             </View>
-          ))}
-        </View>
 
-        {/* Products List */}
-        <View style={{ padding: 10 }}>
-          <Text style={styles.sectionTitle}>Products</Text>
-          {loading ? (
-            <ActivityIndicator size="large" color="#000" />
-          ) : (
-            <FlatList
-              data={products}
-              renderItem={renderProduct}
-              keyExtractor={(item) => item.id.toString()}
-            />
-          )}
-        </View>
-      </ScrollView>
+            {/* Cards */}
+            <View style={styles.cardsContainer}>
+              {cards.map((card, index) => (
+                <View
+                  key={index}
+                  style={[styles.card, { backgroundColor: card.color }]}
+                >
+                  <Text style={styles.cardTitle}>{card.title}</Text>
+                  <Image source={card.image} style={styles.cardImage} />
+                </View>
+              ))}
+            </View>
+
+            {/* Section Title */}
+            <View style={{ padding: 10 }}>
+              <Text style={styles.sectionTitle}>Products</Text>
+              {loading && <ActivityIndicator size="large" color="#000" />}
+            </View>
+          </>
+        }
+        ListEmptyComponent={
+          !loading && <Text style={{ textAlign: 'center' }}>No products found.</Text>
+        }
+      />
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -127,7 +148,10 @@ export default function DashboardScreen() {
           <Ionicons name="grid-outline" size={24} color="#000" />
           <Text>Categories</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => router.push({ pathname: "/cart" })}>
+        <TouchableOpacity
+          style={styles.navItem}
+          onPress={() => router.push({ pathname: '/cart' })}
+        >
           <Ionicons name="cart-outline" size={24} color="#000" />
           <Text>Cart</Text>
         </TouchableOpacity>
