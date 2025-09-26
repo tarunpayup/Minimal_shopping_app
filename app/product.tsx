@@ -61,33 +61,39 @@ export default function ProductScreen() {
     }
   };
 
-  // ⭐ Add to Cart API Call
-  const updateCartAPI = async (newQty: number) => {
-    try {
-      const formData = new FormData();
-      formData.append('user_id', String(userId));
-      formData.append('product_id', String(product.id));
-      formData.append('quantity', String(newQty));
+// Add to Cart API Call
+const updateCartAPI = async (newQty: number) => {
+  try {
+    const formData = new FormData();
+    formData.append("action", "add"); // 🔥 important
+    formData.append("user_id", String(userId));
+    formData.append("product_id", String(product.id));
+    formData.append("quantity", String(newQty));
 
-      const res = await fetch(
-        'https://tarunbansal.co.in/android/react/add_to_cart.php',
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
-
-      const data = await res.json();
-      if (data.status === 'success') {
-        console.log('Cart updated on server');
-      } else {
-        Alert.alert('Error', data.message || 'Failed to update cart');
+    const res = await fetch(
+      "https://tarunbansal.co.in/android/react/add_to_cart.php",
+      {
+        method: "POST",
+        body: formData,
       }
-    } catch (error) {
-      console.error(error);
-      Alert.alert('Error', 'Unable to connect to server');
+    );
+
+    const text = await res.text(); // first read raw text
+    console.log("Raw API response:", text);
+
+    const data = JSON.parse(text); // then parse JSON
+
+    if (data.status === "success") {
+      console.log("Cart updated on server");
+    } else {
+      Alert.alert("Error", data.message || "Failed to update cart");
     }
-  };
+  } catch (error) {
+    console.error(error);
+    Alert.alert("Error", "Unable to connect to server");
+  }
+};
+
 
   const handleAddToCart = () => {
     setQuantity(1);

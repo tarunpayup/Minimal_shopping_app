@@ -1,5 +1,5 @@
 <?php
-include "config.php"; // DB connection
+include "connection.php";
 
 $user_id = $_GET['user_id'];
 

@@ -1,5 +1,5 @@
 <?php
-include "config.php"; // DB connection
+include "connection.php";
 
 $user_id = $_POST['user_id'];
 $product_id = $_POST['product_id'];

@@ -1,5 +1,5 @@
 <?php
-include "config.php";
+include "connection.php";
 
 $cart_id = $_POST['cart_id'];
 
