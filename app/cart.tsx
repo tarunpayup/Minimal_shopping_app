@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import RazorpayCheckout from 'react-native-razorpay';
 import {
   ActivityIndicator,
   FlatList,
@@ -25,7 +26,7 @@ const CartScreen = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
-  const userId = 1; // 🔹 Replace with logged-in user's ID
+  const userId = 1;
 
   // Fetch cart from API
   const fetchCart = async () => {
@@ -35,7 +36,7 @@ const CartScreen = () => {
       formData.append("user_id", userId.toString());
 
       const response = await fetch(
-        "https://tarunbansal.co.in/android/react/cart.php",
+        "https://tarunbansal.co.in/android/react/get_cart.php",
         {
           method: "POST",
           body: formData,
