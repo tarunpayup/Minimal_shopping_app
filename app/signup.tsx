@@ -229,7 +229,7 @@ export default function SignupScreen() {
 const styles = StyleSheet.create({
   scrollContainer: { flexGrow: 1, paddingHorizontal: 20, paddingVertical: 20 },
   container: { flex: 1, backgroundColor: "#fff", padding: 20 },
-  heading: { fontSize: 28, fontWeight: "700", color: "#3C4F76", textAlign: "center" },
+  heading: { fontSize: 28, fontWeight: "700", color: "#3C4F76", textAlign: "center", marginTop:20 },
   subheading: { fontSize: 15, color: "#777", textAlign: "center", marginBottom: 20 },
   label: { fontSize: 14, fontWeight: "500", color: "#444", marginBottom: 5 },
   input: {

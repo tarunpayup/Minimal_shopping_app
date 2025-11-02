@@ -53,4 +53,7 @@ Task (08/08/2025)
     - Backend level- PHP, NodeJS, RoR, Golang
     -API Key - rzp_live_EWrg6XAXfaC1ZM -> Frontend + Backend
     - Checkout -> Generate Order Id (Backend) -> Razorpay Payment Page -> User pays -> Razorpay generates payment id -> Payment id + Order Id stores into database -> Confirm order
+
+6. Safe area maintain
+    - npm install react-native-safe-area-context
     
