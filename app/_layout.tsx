@@ -28,6 +28,7 @@ export default function RootLayout() {
         <Stack.Screen name="signup"  options={{ headerShown: false }}/>
         <Stack.Screen name="product"  options={{ headerShown: false }}/>
         <Stack.Screen name="cart"  options={{ headerShown: false }}/>
+        <Stack.Screen name="login_firebase"  options={{ headerShown: false }}/>
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
